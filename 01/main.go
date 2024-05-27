@@ -11,41 +11,29 @@ type Human struct {
 	age  int
 }
 
-type Student struct {
-	Name  string
-	Point int
-}
-
-func (s *Student) teach() {
-	fmt.Printf("Hi i am student -  %s, and my pooint: %d\n", s.Name, s.Point)
-}
-
-func (h *Human) personInfo() {
+// Метод HumanInfo для структуры Human
+func (h *Human) HumanInfo() {
 	fmt.Printf("Hi, I am %s i am %d years old\n", h.name, h.age)
 }
 
+// Структура Action, в которую встроена структуры Human
 type Action struct {
 	Human
-	Student
 	Sport string
 }
 
+// Метод DoSomething для структуры Action
+func (a *Action) DoSomething() {
+	fmt.Printf("Hi, I am %s and I Do Something Action, my Sport: %s\n", a.name, a.Sport)
+}
+
 func main() {
-	alex := Action{
-		Sport: "Run",
-		Human: Human{
-			name: "Alex",
-			age:  25},
-	}
 
-	alex.personInfo()
-	fmt.Printf("Human name: %s, Human sport: %s\n", alex.name, alex.Sport)
+	// Создаем объект Action
+	action := Action{Human{"James", 20}, "Box"}
 
-	Ivan := Action{
-		Sport:   "GOGO",
-		Student: Student{Name: "Ivan", Point: 20},
-	}
+	// Вызов методов встроенной структуры Human и Action
+	action.DoSomething()
+	action.HumanInfo()
 
-	Ivan.teach()
-	fmt.Printf("Student name: %s, Student sport: %s\n", Ivan.Name, Ivan.Sport)
 }

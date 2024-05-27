@@ -27,6 +27,8 @@ func main() {
 	myMap := NewSafeMap()
 	wg := sync.WaitGroup{}
 	wg.Add(10)
+
+	// Записываем конкуренто данные в мапу
 	go func() {
 		for i := 0; i < 10; i++ {
 			myMap.Set(strconv.Itoa(i), i*10)
@@ -36,3 +38,5 @@ func main() {
 	wg.Wait()
 	fmt.Println(myMap.m)
 }
+
+// Безопасную запись обеспечивает встроенный в структуру мапы мютекс

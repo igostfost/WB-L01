@@ -13,16 +13,38 @@ func main() {
 	var res int
 	arr := [5]int{2, 4, 6, 8, 10}
 	wg := sync.WaitGroup{}
-	mu := sync.Mutex{}
+	//mu := sync.Mutex{}
+
+	// Устанавливаем счетчик WaitGroup равным длине массива
 	wg.Add(len(arr))
+
 	for _, val := range arr {
-		go func(val int, res *int) {
-			mu.Lock()
-			*res += val * val
-			mu.Unlock()
+		// Запускаем горутины
+		go func(val int) {
 			defer wg.Done()
-		}(val, &res)
+			res += val * val
+		}(val)
 	}
 	wg.Wait()
+
+	//resultCh := make(chan int, len(arr)) // Создаем канал для передачи результата
+	//
+	//for _, val := range arr {
+	//	wg.Add(1)
+	//	go func(val int) {
+	//		defer wg.Done()
+	//		resultCh <- val * val // Отправляем результат в канал
+	//	}(val)
+	//}
+	//
+	//go func() {
+	//	wg.Wait()
+	//	close(resultCh) // Закрываем канал после завершения всех горутин
+	//}()
+	//
+	//for r := range resultCh {
+	//	res += r // Суммируем результаты из канала
+	//}
+
 	fmt.Println(res)
 }
